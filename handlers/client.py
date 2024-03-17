@@ -32,8 +32,7 @@ async def cmd_cancel(message: types.Message, state: FSMContext):
 
 # @dp.message_handler()
 async def main_function(message: types.Message):
-    if __name__ == '__main__':
-        await message.reply('Да я тебя отечаю!!!!')
+    await message.reply('Да я тебя отечаю!!!!')
 
 a = [menuf, cmd_cancel]
 def register_handlers_client(dp: Dispatcher):

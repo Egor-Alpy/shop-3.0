@@ -90,7 +90,7 @@ async def load_partnername(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['name'] = message.text
     await PartnerStatesGroup.promocode.set()
-    await message.reply('*введите промокод партнера*', parse_mode='markdown')
+    await message.reply('*введите промокод партнера*', reply_markup=kb.cancel_markup, parse_mode='markdown')
 
 
 # @dp.message_handler(lambda message: message.text, state=PartnerStatesGroup.promocode)

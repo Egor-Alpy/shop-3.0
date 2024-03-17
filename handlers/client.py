@@ -25,15 +25,6 @@ async def menuf(message: types.Message):
                          reply_markup=kb.menu_markup)
 
 
-# @dp.message_handler(commands=['cancel'], state="*")
-async def cmd_cancel(message: types.Message, state: FSMContext):
-    current_state = await state.get_state()
-    if current_state is None:
-        return
-    await message.answer('*Выполнена отмена*', parse_mode='markdown')
-    await state.finish()
-
-
 # @dp.message_handler()
 async def main_function(message: types.Message):
     await message.reply('Да я тебя отечаю!!!!')

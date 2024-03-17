@@ -31,7 +31,7 @@ async def callback_func(callback: types.CallbackQuery):
         await callback.answer('База данных partners была отчищена')
     elif '&&&' == callback.data[:3]:
         data_base.delpartner(callback.data[3:])
-        await callback.answer(f'Партнер "{callback.data[3:]}" был удален из таблицы partners!')
+        await callback.answer(f'Партнер с id "{callback.data[3:]}" был удален из таблицы partners!')
         await callback.message.edit_reply_markup(reply_markup=kb.get_partners_inlinekeyboard_4delete())
     elif '$$$' == callback.data[:3]:
         data_base.delsoft(callback.data[3:])

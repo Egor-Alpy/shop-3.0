@@ -1,4 +1,6 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
+import sqlite3 as sq
+
 
 cancel_markup = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
 cancel_markup.add(KeyboardButton('/cancel'))
@@ -19,8 +21,10 @@ b2 = InlineKeyboardButton('🔺 Назад', callback_data='Назад Поку�
 soft_consideration = InlineKeyboardMarkup()
 soft_consideration.add(b1, b2)
 
-# ++++++++++++++++++++++++++++++++++++++++++++++
-import sqlite3 as sq
+
+# ++++++++++++++++++++++++++++++++++++++++++++++ MARKUP FUNCTIONS +++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
 def get_softs_inlinekeyboard():
     with sq.connect("shop3_0.db") as con:
         cur = con.cursor()
@@ -33,6 +37,7 @@ def get_softs_inlinekeyboard():
         softs_markup.add(InlineKeyboardButton('🔺 Назад', callback_data='Назад'))
         return softs_markup
 
+
 def get_softs_inlinekeyboard_4delete():
     with sq.connect("shop3_0.db") as con:
         cur = con.cursor()
@@ -42,6 +47,7 @@ def get_softs_inlinekeyboard_4delete():
         for i in range(len(rows)):
             softs_markup.add(InlineKeyboardButton(rows[i][0], callback_data='$$$' + rows[i][0]))
         return softs_markup
+
 
 def get_partners_inlinekeyboard_4delete():
     with sq.connect("shop3_0.db") as con:

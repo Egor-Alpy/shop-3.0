@@ -4,7 +4,6 @@ from handlers import *
 async def on_startup(_):
     print("- - - BOT IS RUNNING - - -")
 
-
 admin.register_handlers_admin(dp)
 callback.register_handlers_callback(dp)
 client.register_handlers_client(dp)

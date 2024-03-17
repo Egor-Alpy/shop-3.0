@@ -6,6 +6,7 @@ import keyboards as kb
 """########################### # # # #       CALL BACK       # # # # #################################"""
 """#################################  # # # # # # # # # # # # # ######################################"""
 
+
 # @dp.callback_query_handler()
 async def callback_func(callback: types.CallbackQuery):
     if callback.data == 'Софты':
@@ -41,6 +42,6 @@ async def callback_func(callback: types.CallbackQuery):
         await callback.message.edit_text(f'<b><u>Название</u>:</b> {data_list[0]}\n\n<b><u>Описание</u>:</b> {data_list[1]}\n\n<b><u>Цена</u>:</b> {data_list[2]} USDT', parse_mode='html')
         await callback.message.edit_reply_markup(reply_markup=kb.soft_consideration)
 
+
 def register_handlers_callback(dp : Dispatcher):
-    print('ok')
     dp.register_callback_query_handler(callback_func)

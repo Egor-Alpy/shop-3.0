@@ -7,6 +7,7 @@ import keyboards as kb
 """######################### # # # #       MAIN FUNCTIONS       # # # # ##############################"""
 """#################################  # # # # # # # # # # # # # ######################################"""
 
+
 # @dp.message_handler(commands=['start'])
 async def startf(message: types.Message):
     await message.delete()
@@ -23,6 +24,7 @@ async def menuf(message: types.Message):
                          parse_mode='markdown',
                          reply_markup=kb.menu_markup)
 
+
 # @dp.message_handler(commands=['cancel'], state="*")
 async def cmd_cancel(message: types.Message, state: FSMContext):
     current_state = await state.get_state()
@@ -36,8 +38,8 @@ async def cmd_cancel(message: types.Message, state: FSMContext):
 async def main_function(message: types.Message):
     await message.reply('Да я тебя отечаю!!!!')
 
-a = [menuf, cmd_cancel]
+
 def register_handlers_client(dp: Dispatcher):
     dp.register_message_handler(startf, commands=['start'])
     dp.register_message_handler(menuf, commands=['menu'])
-    dp.register_message_handler(main_function, content_types=['text'])
+    dp.register_message_handler(main_function)

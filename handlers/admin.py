@@ -1,15 +1,11 @@
-from aiogram import types
+from aiogram import types, Dispatcher
 from aiogram.dispatcher import FSMContext
-
 from StatesGroups import *
 from config import admin_id
-from create_bot import *
+from create_bot import data_base
+
 
 import keyboards as kb
-import database as db
-
-
-
 
 # ##################################################################################################### #
 # ############################################# ADMIN ################################################# #
@@ -19,7 +15,7 @@ import database as db
 """############################## # # # #       SOFT       # # # # ###################################"""
 """#################################  # # # # # # # # # # # # # ######################################"""
 # ADD * ADD * ADD * ADD * ADD * ADD * ADD * ADD * ADD * ADD * ADD * ADD
-@dp.message_handler(commands=['addsoft'], state=None)
+# @dp.message_handler(commands=['addsoft'], state=None)
 async def start_work(message: types.Message):
     if message.from_user.id in admin_id:
         await ClientStatesGroup.name.set()
@@ -29,21 +25,21 @@ async def start_work(message: types.Message):
     else:
         await message.reply('*У вас нет прав на использование этой команды!*', parse_mode='markdown')
 
-@dp.message_handler(lambda message: message.text, state=ClientStatesGroup.name)
-async def load_name(message: types.Message, state: FSMContext):
+# @dp.message_handler(lambda message: message.text, state=ClientStatesGroup.name)
+async def load_softname(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['name'] = message.text
     await ClientStatesGroup.next()
     await message.reply('*А теперь отправь описание*', parse_mode='markdown')
 
-@dp.message_handler(state=ClientStatesGroup.desc)
+# @dp.message_handler(state=ClientStatesGroup.desc)
 async def load_desc(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['desc'] = message.text
     await ClientStatesGroup.next()
     await message.reply('*Теперь отправь цену софта*', parse_mode='markdown')
 
-@dp.message_handler(state=ClientStatesGroup.price)
+# @dp.message_handler(state=ClientStatesGroup.price)
 async def load_price(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['price'] = int(message.text)
@@ -53,7 +49,7 @@ async def load_price(message: types.Message, state: FSMContext):
 
 
 # DELETE * DELETE * DELETE * DELETE * DELETE * DELETE * DELETE * DELETE * DELETE
-@dp.message_handler(commands=['delsoft'])
+# @dp.message_handler(commands=['delsoft'])
 async def delete_soft(message: types.Message):
     if message.from_user.id in admin_id:
         await message.answer('*Выберите софт, который хотите удалить*', reply_markup=kb.get_softs_inlinekeyboard_4delete(), parse_mode='markdown')
@@ -66,7 +62,7 @@ async def delete_soft(message: types.Message):
 """############################# # # # #       PARTNER       # # # # #################################"""
 """#################################  # # # # # # # # # # # # # ######################################"""
 # ADD * ADD * ADD * ADD * ADD * ADD * ADD * ADD * ADD * ADD * ADD * ADD
-@dp.message_handler(commands=['addpartner'])
+# @dp.message_handler(commands=['addpartner'])
 async def add_partner(message: types.Message):
     if message.from_user.id in admin_id:
         await PartnerStatesGroup.user_id.set()
@@ -76,35 +72,35 @@ async def add_partner(message: types.Message):
     else:
         await message.reply('*У вас нет прав на использование этой команды!*', parse_mode='markdown')
 
-@dp.message_handler(lambda message: message.text, state=PartnerStatesGroup.user_id)
-async def load_name(message: types.Message, state: FSMContext):
+# @dp.message_handler(lambda message: message.text, state=PartnerStatesGroup.user_id)
+async def load_userid(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['user_id'] = message.text
     await PartnerStatesGroup.name.set()
     await message.reply('*Теперь введите имя партнера*', reply_markup=kb.cancel_markup, parse_mode='markdown')
 
-@dp.message_handler(lambda message: message.text, state=PartnerStatesGroup.name)
-async def load_name(message: types.Message, state: FSMContext):
+# @dp.message_handler(lambda message: message.text, state=PartnerStatesGroup.name)
+async def load_partnername(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['name'] = message.text
     await PartnerStatesGroup.promocode.set()
     await message.reply('*введите промокод партнера*', parse_mode='markdown')
 
-@dp.message_handler(lambda message: message.text, state=PartnerStatesGroup.promocode)
-async def load_name(message: types.Message, state: FSMContext):
+# @dp.message_handler(lambda message: message.text, state=PartnerStatesGroup.promocode)
+async def load_promo(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['promocode'] = message.text
     await PartnerStatesGroup.discount.set()
     await message.reply('*введите размер скидки промокода*', reply_markup=kb.cancel_markup, parse_mode='markdown')
 
-@dp.message_handler(lambda message: message.text, state=PartnerStatesGroup.discount)
-async def load_name(message: types.Message, state: FSMContext):
+# @dp.message_handler(lambda message: message.text, state=PartnerStatesGroup.discount)
+async def load_discount(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['discount'] = message.text
     await PartnerStatesGroup.quantity.set()
     await message.reply('*введите кол-во промокодов*', reply_markup=kb.cancel_markup, parse_mode='markdown')
-@dp.message_handler(lambda message: message.text, state=PartnerStatesGroup.quantity)
-async def load_name(message: types.Message, state: FSMContext):
+# @dp.message_handler(lambda message: message.text, state=PartnerStatesGroup.quantity)
+async def load_quantity(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['quantity'] = message.text
     data_base.addpartner(data['user_id'], data['name'], data['promocode'], data['discount'], data['quantity'])
@@ -113,8 +109,8 @@ async def load_name(message: types.Message, state: FSMContext):
 
 
 # DELETE * DELETE * DELETE * DELETE * DELETE * DELETE * DELETE * DELETE * DELETE
-@dp.message_handler(commands=['delpartner'], state=None)
-async def delete_soft(message: types.Message):
+# @dp.message_handler(commands=['delpartner'], state=None)
+async def delete_partner(message: types.Message):
     if message.from_user.id in admin_id:
         await message.answer('*Выбери партнера, которого хочешь удалить из базы данных*',
                              parse_mode = 'markdown',
@@ -125,7 +121,7 @@ async def delete_soft(message: types.Message):
 """#################################  # # # # # # # # # # # # # ######################################"""
 """############################ # # # #       REFRESH       # # # # ##################################"""
 """#################################  # # # # # # # # # # # # # ######################################"""
-@dp.message_handler(commands=['refresh'])
+# @dp.message_handler(commands=['refresh'])
 async def refresh_func(message: types.Message):
     if message.from_user.id in admin_id:
         await message.answer('*Выберите, какую базу данных вы хотите обновить*', reply_markup=kb.refresh_markup, parse_mode='markdown')
@@ -136,7 +132,7 @@ async def refresh_func(message: types.Message):
 """#################################  # # # # # # # # # # # # # ######################################"""
 """########################### # # # #       ADMIN HELP       # # # # ################################"""
 """#################################  # # # # # # # # # # # # # ######################################"""
-@dp.message_handler(commands=['admin_help'])
+# @dp.message_handler(commands=['admin_help'])
 async def admin_help(message: types.Message):
     if message.from_user.id in admin_id:
         await message.answer("""
@@ -149,4 +145,20 @@ async def admin_help(message: types.Message):
     else:
         await message.reply('*У вас нет прав на использование этой команды!*', parse_mode='markdown')
 
+def register_handlers_admin(dp : Dispatcher):
+
+    dp.register_message_handler(start_work ,commands=['addsoft'])
+    dp.register_message_handler(load_softname ,lambda message: message.text, state=ClientStatesGroup.name)
+    dp.register_message_handler(load_desc ,state=ClientStatesGroup.desc)
+    dp.register_message_handler(load_price ,state=ClientStatesGroup.price)
+    dp.register_message_handler(delete_soft ,commands=['delsoft'])
+    dp.register_message_handler(add_partner ,commands=['addpartner'], state=None)
+    dp.register_message_handler(load_userid , state=PartnerStatesGroup.user_id)
+    dp.register_message_handler(load_partnername , state=PartnerStatesGroup.name)
+    dp.register_message_handler(load_promo , state=PartnerStatesGroup.promocode)
+    dp.register_message_handler(load_discount , state=PartnerStatesGroup.discount)
+    dp.register_message_handler(load_quantity , state=PartnerStatesGroup.quantity)
+    dp.register_message_handler(delete_partner ,commands=['delpartner'], state=None)
+    dp.register_message_handler(refresh_func ,commands=['refresh'])
+    dp.register_message_handler(admin_help ,commands=['admin_help'])
 

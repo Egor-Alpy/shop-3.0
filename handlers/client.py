@@ -3,7 +3,9 @@ from aiogram.dispatcher import FSMContext
 from create_bot import *
 import keyboards as kb
 
-"""######################################       MAIN FUNC       ###########################################"""
+"""#################################  # # # # # # # # # # # # # ######################################"""
+"""######################### # # # #       MAIN FUNCTIONS       # # # # ##############################"""
+"""#################################  # # # # # # # # # # # # # ######################################"""
 
 # @dp.message_handler(commands=['start'])
 async def startf(message: types.Message):
@@ -36,7 +38,6 @@ async def main_function(message: types.Message):
 
 a = [menuf, cmd_cancel]
 def register_handlers_client(dp: Dispatcher):
-    print('ossk')
     dp.register_message_handler(startf, commands=['start'])
     dp.register_message_handler(menuf, commands=['menu'])
     dp.register_message_handler(main_function, content_types=['text'])

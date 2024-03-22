@@ -4,7 +4,7 @@ from create_bot import *
 import keyboards as kb
 from StatesGroups import *
 from config import admin_id
-
+from create_bot import cancel_check
 
 # ##################################################################################################### #
 # ############################################# ADMIN ################################################# #
@@ -46,7 +46,7 @@ async def load_desc(message: types.Message, state: FSMContext):
 # @dp.message_handler(state=ClientStatesGroup.price)
 async def load_price(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
-        data['price'] = int(message.text)
+        data['price'] = message.text
     data_base.addsoft(name=data['name'], desc=data['desc'], price=data['price'])
     await message.reply(f'*База Данных была обновлена: софт был добавлен*', parse_mode='markdown')
     await state.finish()
@@ -135,11 +135,11 @@ async def delete_partner(message: types.Message):
 
 
 # @dp.message_handler(commands=['refresh'])
-async def refresh_func(message: types.Message):
+'''async def refresh_func(message: types.Message):
     if message.from_user.id in admin_id:
         await message.answer('*Выберите, какую базу данных вы хотите обновить*', reply_markup=kb.refresh_markup, parse_mode='markdown')
     else:
-        await message.reply('*У вас нет прав на использование этой команды!*', parse_mode='markdown')
+        await message.reply('*У вас нет прав на использование этой команды!*', parse_mode='markdown')'''
 
 
 """#################################  # # # # # # # # # # # # # ######################################"""
@@ -174,6 +174,6 @@ def register_handlers_admin(dp: Dispatcher):
     dp.register_message_handler(load_discount, state=PartnerStatesGroup.discount)
     dp.register_message_handler(load_quantity, state=PartnerStatesGroup.quantity)
     dp.register_message_handler(delete_partner, commands=['delpartner'], state=None)
-    dp.register_message_handler(refresh_func, commands=['refresh'])
+    # dp.register_message_handler(refresh_func, commands=['refresh'])
     dp.register_message_handler(admin_help, commands=['admin_help'])
 

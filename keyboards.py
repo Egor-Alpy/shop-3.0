@@ -52,9 +52,9 @@ def get_softs_inlinekeyboard_4delete():
 def get_partners_inlinekeyboard_4delete():
     with sq.connect("shop3_0.db") as con:
         cur = con.cursor()
-        cur.execute("SELECT user_id, name FROM partners")
+        cur.execute("SELECT user_id, name, promocode, discount, quantity FROM partners")
         rows = cur.fetchall()
         partners_markup = InlineKeyboardMarkup()
         for i in range(len(rows)):
-            partners_markup.add(InlineKeyboardButton(rows[i][1]+'  |id - '+rows[i][0], callback_data='&&&' + rows[i][0]))
+            partners_markup.add(InlineKeyboardButton(f"name: {rows[i][1]}|id: {rows[i][0]}|promo: {rows[i][2]}|disc: {rows[i][3]}USDT|qty: {rows[i][4]}", callback_data='&&&' + rows[i][0]))
         return partners_markup

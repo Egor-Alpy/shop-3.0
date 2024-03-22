@@ -1,9 +1,11 @@
 from create_bot import *
 from handlers import *
-
+from config import *
 
 async def on_startup(_):
     print("- - - BOT IS RUNNING - - -")
+    await bot.set_my_commands(bot_commands_client)
+
 
 other.register_handlers_client(dp)
 callback.register_handlers_callback(dp)
